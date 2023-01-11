@@ -63,7 +63,7 @@ def serialize_int(output_value: Any) -> int:
             num = int(output_value)  # raises ValueError if not an integer
     except (OverflowError, ValueError, TypeError):
         raise GraphQLError(
-            "Int cannot represent non-integer value: " + inspect(output_value)
+            "Int cannot represent non-integer value (1): " + inspect(output_value)
         )
     if not GRAPHQL_MIN_INT <= num <= GRAPHQL_MAX_INT:
         raise GraphQLError(
@@ -82,7 +82,7 @@ def coerce_int(input_value: Any) -> int:
         and int(input_value) == input_value
     ):
         raise GraphQLError(
-            "Int cannot represent non-integer value: " + inspect(input_value)
+            "Int cannot represent non-integer value (2): " + inspect(input_value)
         )
     if not GRAPHQL_MIN_INT <= input_value <= GRAPHQL_MAX_INT:
         raise GraphQLError(
@@ -96,7 +96,7 @@ def parse_int_literal(value_node: ValueNode, _variables: Any = None) -> int:
     """Parse an integer value node in the AST."""
     if not isinstance(value_node, IntValueNode):
         raise GraphQLError(
-            "Int cannot represent non-integer value: " + print_ast(value_node),
+            "Int cannot represent non-integer value (3): " + print_ast(value_node),
             value_node,
         )
     num = int(value_node.value)
