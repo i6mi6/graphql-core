@@ -66,7 +66,7 @@ def serialize_int(output_value: Any) -> int:
     return num
 
 
-def _try_convert_str_to_int(s: str) -> Union[str, int]:
+def _try_convert_str_to_int(s):
     try:
         return int(s)
     except (ValueError, TypeError):
