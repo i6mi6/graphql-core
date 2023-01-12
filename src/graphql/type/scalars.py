@@ -85,7 +85,7 @@ def coerce_int(input_value: Any) -> int:
         if isinstance(input_value, str):
             input_value = _try_convert_str_to_int(input_value)
             
-       if not isinstance(input_value, int):
+        if not isinstance(input_value, int):
             raise GraphQLError(
                 "Int cannot represent non-integer value (2): " + inspect(input_value)
             )
