@@ -66,6 +66,13 @@ def serialize_int(output_value: Any) -> int:
     return num
 
 
+def _try_convert_str_to_int(s: str) -> Union[str, int]:
+    try:
+        return int(s)
+    except (ValueError, TypeError):
+        return s
+
+
 def coerce_int(input_value: Any) -> int:
     if not (
         isinstance(input_value, int) and not isinstance(input_value, bool)
@@ -74,9 +81,15 @@ def coerce_int(input_value: Any) -> int:
         and isfinite(input_value)
         and int(input_value) == input_value
     ):
-        raise GraphQLError(
-            "Int cannot represent non-integer value (2): " + inspect(input_value)
-        )
+        
+        if isinstance(input_value, str):
+            input_value = _try_convert_str_to_int(input_value)
+            
+       if not isinstance(input_value, int):
+            raise GraphQLError(
+                "Int cannot represent non-integer value (2): " + inspect(input_value)
+            )
+
     if not GRAPHQL_MIN_INT <= input_value <= GRAPHQL_MAX_INT:
         raise GraphQLError(
             "Int cannot represent non 32-bit signed integer value: "
