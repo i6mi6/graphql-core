@@ -81,7 +81,7 @@ def coerce_int(input_value: Any) -> int:
         and isfinite(input_value)
         and int(input_value) == input_value
     ):
-        
+
         if isinstance(input_value, str):
             input_value = _try_convert_str_to_int(input_value)
             
@@ -143,13 +143,28 @@ def serialize_float(output_value: Any) -> float:
     return num
 
 
+def _try_convert_str_to_float(s):
+    try:
+        return float(s)
+    except (ValueError, TypeError):
+        return s
+
+
 def coerce_float(input_value: Any) -> float:
+    if isinstance(input_value, str):
+        input_value = _try_convert_str_to_float(input_value)
+
+    if not isinstance(input_value, float):
+        input_value = _try_convert_str_to_int(input_value)
+
     if not (
         isinstance(input_value, int) and not isinstance(input_value, bool)
     ) and not (isinstance(input_value, float) and isfinite(input_value)):
+
         raise GraphQLError(
             "Float cannot represent non numeric value: " + inspect(input_value)
         )
+
     return float(input_value)
 
 
