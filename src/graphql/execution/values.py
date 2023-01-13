@@ -108,7 +108,10 @@ def coerce_variable_values(
                 )
             continue
 
-        value = inputs[var_name]
+        value = None
+        if var_name in inputs:
+            value = inputs[var_name]
+
         if value is None and is_non_null_type(var_type):
             var_type_str = inspect(var_type)
             on_error(
