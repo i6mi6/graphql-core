@@ -304,6 +304,8 @@ def coerce_id(input_value: Any) -> str:
         and int(input_value) == input_value
     ):
         return str(int(input_value))
+    if not input_value:
+        return input_value
     raise GraphQLError("ID cannot represent value: " + inspect(input_value))
 
 
