@@ -66,6 +66,10 @@ def coerce_input_value(
     if is_list_type(type_):
         type_ = cast(GraphQLList, type_)
         item_type = type_.of_type
+
+        if type(input_value) is dict:
+          input_value = [i for i in input_value.keys()]
+
         if is_iterable(input_value):
             coerced_list: List[Any] = []
             append_item = coerced_list.append
