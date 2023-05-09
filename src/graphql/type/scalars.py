@@ -137,9 +137,10 @@ def serialize_float(output_value: Any) -> float:
         if not isfinite(num):
             raise ValueError
     except (ValueError, TypeError):
-        raise GraphQLError(
-            "Float cannot represent non numeric value: " + inspect(output_value)
-        )
+          return 0
+#         raise GraphQLError(
+#             "Float cannot represent non numeric value (1): " + inspect(output_value)
+#         )
     return num
 
 
@@ -162,7 +163,7 @@ def coerce_float(input_value: Any) -> float:
     ) and not (isinstance(input_value, float) and isfinite(input_value)):
 
         raise GraphQLError(
-            "Float cannot represent non numeric value: " + inspect(input_value)
+            "Float cannot represent non numeric value (2): " + inspect(input_value)
         )
 
     return float(input_value)
@@ -172,7 +173,7 @@ def parse_float_literal(value_node: ValueNode, _variables: Any = None) -> float:
     """Parse a float value node in the AST."""
     if not isinstance(value_node, (FloatValueNode, IntValueNode)):
         raise GraphQLError(
-            "Float cannot represent non numeric value: " + print_ast(value_node),
+            "Float cannot represent non numeric value (3): " + print_ast(value_node),
             value_node,
         )
     return float(value_node.value)
